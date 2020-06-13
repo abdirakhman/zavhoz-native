@@ -43,13 +43,18 @@ export default class Check extends React.Component {
       used: [],
       forgotThings: [],
     };
+    this.componentDidMount = this.componentDidMount.bind(this);
   }
 
   async componentDidMount() {
     let val = await deviceStorage.retrieveItem('access_token');
     const { navigation } = this.props;
-    this.state.setState({used : navigation.getParam('used', [])});
-    fetch('http://192.168.1.3/zavhoz/get_max_id.php', {
+    const {route} = this;
+    console.warn(navigation.getParam(used));
+    const used = route.params.used ?? [];
+    console.log(used);
+    alert('Used is ${used}');
+    fetch('http://192.168.1.7/zavhoz/get_max_id.php', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -79,7 +84,8 @@ export default class Check extends React.Component {
   }
   render() {
     console.log("kekeke");
-    if (this.state.isLoading) {
+    console.log(JSON.stringify(this.state.forgotThings))
+    if (this.state.isLoading === true) {
       return (
         <View style={{ flex: 1, padding: 20 }}>
           <ActivityIndicator />

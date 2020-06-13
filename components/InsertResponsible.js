@@ -15,10 +15,20 @@ import {
 import { StackNavigator } from 'react-navigation';
 
 export default class InsertResponsible extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
 
   render() {
     return (
-      <Text> TODO </Text>
+        <View style={styles.container}>
+          <TextInput style={{ width : 80, height: 40, borderColor: 'gray', borderWidth: 1 }}/>
+          <TextInput style={{ width : 80, height: 40, borderColor: 'gray', borderWidth: 1 }}/>
+          <TextInput style={{ width : 80, height: 40, borderColor: 'gray', borderWidth: 1 }}/>
+          <TextInput style={{ width : 80, height: 40, borderColor: 'gray', borderWidth: 1 }}/>
+          <TextInput style={{ width : 80, height: 40, borderColor: 'gray', borderWidth: 1 }}/>
+        </View>
     );
   }
 }
@@ -40,5 +50,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
 });
-
-

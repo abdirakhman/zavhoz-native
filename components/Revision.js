@@ -51,7 +51,7 @@ export default class Revision extends React.Component {
               title={'Tap to Scan Again'}
               onPress={() => this.setState({ scanned: false })}
             />
-            <Button title={'End Scanning'} onPress={() => this.props.navigation.navigate('Check', {used : [1, 2]})} />
+            <Button title={'End Scanning'} onPress={() => this.props.navigation.navigate('Check', {used : this.state.usedId})} />
           </View>
         )}
       </View>

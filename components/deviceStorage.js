@@ -13,7 +13,6 @@ const deviceStorage = {
     try {
       const retrievedItem =  await AsyncStorage.getItem(key);
       const item = (retrievedItem).toString();
-      console.log(item);
       return item;
     } catch (error) {
       console.log(error.message);

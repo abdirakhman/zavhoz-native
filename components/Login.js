@@ -32,9 +32,13 @@ export default class Login extends React.Component {
   }
 
   _loadInitialState = async () => {
-    const value = await AsyncStorage.getItem('user');
-
-    return value;
+    const value = await AsyncStorage.getItem('good_before');
+    let currentTime = new Date().getTime() / 1000;
+    if (value < currentTime) {
+      return null;
+    } else {
+      return value;
+    }
   };
 
   render() {
@@ -66,7 +70,7 @@ export default class Login extends React.Component {
   }
 
   login = () => {
-    fetch('http://localhost/zavhoz/login.php', {
+    fetch('http://192.168.1.7/zavhoz/login.php', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -84,10 +88,15 @@ export default class Login extends React.Component {
         } else {
           alert(res.error);
         }
+        return res.success;
       })
-    .then(() => {
-        this.props.navigation.navigate('Profile');
+    .then((success) => {
+        if (success === 1)
+          this.props.navigation.navigate('Profile');
       })
+    .catch((err) => {
+      alert(err);
+    })
     .done();
   };
 }
