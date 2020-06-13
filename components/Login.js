@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Font from 'expo-font';
 import {
   StyleSheet,
   Text,
@@ -18,17 +19,21 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: ' ',
-      password: ' ',
+      username: '',
+      password: '',
+      assetsLoaded: false,
     };
   }
 
   async componentDidMount() {
     const value = await this._loadInitialState(); // returns promise, await resolve
-
+    await Font.loadAsync({
+      'Electrolize': require('../assets/fonts/Electrolize.otf'),
+    });
     if (value !== null) {
       this.props.navigation.navigate('Profile');
     }
+    this.setState({ assetsLoaded: true });
   }
 
   _loadInitialState = async () => {
@@ -42,13 +47,20 @@ export default class Login extends React.Component {
   };
 
   render() {
+      if (!this.state.assetsLoaded) {
+        return (
+          <View style={styles.container}>
+            <ActivityIndicator size="large" color="#74B43F"/>
+          </View>
+        );
+      }
       return (
         <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.wrapper}>
           <View style={styles.container}>
-            <Text style={styles.header}>- LOGIN -</Text>
+            <Text style={styles.header}>Authorization</Text>
             <TextInput
               style={styles.textInput}
-              placeholder="E-mail"
+              placeholder="Enter e-mail"
               autoCapitalize="none"
               onChangeText={username => this.setState({ username })}
               underlineColorAndroid="transparent"
@@ -56,19 +68,18 @@ export default class Login extends React.Component {
 
             <TextInput
               style={styles.textInput}
-              placeholder="Password"
+              placeholder="Enter password"
               secureTextEntry
               onChangeText={password => this.setState({ password })}
               underlineColorAndroid="transparent"
             />
             <TouchableOpacity style={styles.btn} onPress={this.login}>
-              <Text>Log in</Text>
+              <Text style={styles.buttonText}>login</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
       );
-  }
-
+}
   login = () => {
     fetch('http://192.168.1.7/zavhoz/login.php', {
       method: 'POST',
@@ -109,26 +120,35 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#2896d3',
+    backgroundColor: '#ffffff',
     paddingLeft: 40,
     paddingRight: 40,
   },
   header: {
     fontSize: 24,
     marginBottom: 60,
-    color: '#fff',
-    fontWeight: 'bold',
+    fontFamily: 'Electrolize',
+    color: '#000000',
   },
   textInput: {
     alignSelf: 'stretch',
     padding: 16,
     marginBottom: 20,
+    fontFamily: 'Electrolize',
     backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#bdbdcf',
   },
   btn: {
-    alignSelf: 'stretch',
-    backgroundColor: '#01c853',
-    padding: 20,
+    backgroundColor: '#74B43F',
+    padding: 5,
     alignItems: 'center',
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+  buttonText: {
+    color: 'white',
+    fontFamily: 'Electrolize',
+    fontSize: 25,
   },
 });
