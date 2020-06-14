@@ -1,4 +1,4 @@
-//todo normanlniy navigate s scannera 
+//todo normanlniy navigate s scannera
 //normalniy check
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';

@@ -1,5 +1,5 @@
-//https://www.npmjs.com/package/react-native-datepicker
 import React from 'react';
+import * as Font from 'expo-font';
 import {
   StyleSheet,
   Text,
@@ -11,6 +11,7 @@ import {
   Platform,
   ScrollView,
   SafeAreaView,
+  ActivityIndicator,
   FlatList,
   Button
  } from 'react-native';
@@ -27,10 +28,18 @@ export default class InsertThing extends React.Component {
       arom_price : '',
       responsible : '',
       place : '',
-      date : '2015-01-01',
+      date : '',
       name : '',
       month_expired : '',
+      assetsLoaded : false,
     };
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'Electrolize': require('../assets/fonts/Electrolize.otf'),
+    });
+    this.setState({ assetsLoaded: true });
   }
 
   _handleNumber = (name) => {
@@ -47,69 +56,90 @@ export default class InsertThing extends React.Component {
   }
 
   render() {
+    if (!this.state.assetsLoaded) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="#74B43F"/>
+        </View>
+      );
+    }
     return (
       <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.wrapper}>
         <View style={styles.container}>
+          <Text style={styles.title}>Adding the item</Text>
           <TextInput
+          placeholder="Initial cost"
           keyboardType="number-pad"
-          style={{ width : 80, height: 40, borderColor: 'gray', borderWidth: 1 }}
+          style={styles.textInput}
           onChangeText={this._handleNumber('init_cost')}
           value={this.state.init_cost}
           />
           <TextInput
+          placeholder="Aromatization cost"
           keyboardType="number-pad"
-          style={{ width : 80, height: 40, borderColor: 'gray', borderWidth: 1 }}
+          style={styles.textInput}
           onChangeText={this._handleNumber('arom_price')}
           value={this.state.arom_price}
           />
           <TextInput
+          placeholder="Responsible"
           keyboardType="number-pad"
-          style={{ width : 80, height: 40, borderColor: 'gray', borderWidth: 1 }}
+          style={styles.textInput}
           onChangeText={this._handleNumber('responsible')}
           value={this.state.responsible}
           />
           <TextInput
+          placeholder="Room"
           keyboardType="number-pad"
-          style={{ width : 80, height: 40, borderColor: 'gray', borderWidth: 1 }}
+          style={styles.textInput}
           onChangeText={this._handleNumber('place')}
           value={this.state.place}
           />
           <DatePicker
-            style={{width: 200}}
+            style={styles.datePicker}
+            customStyles= {{
+              placeholderText : {
+                fontFamily : 'Electrolize',
+                alignSelf: 'stretch',
+                padding: 10,
+              },
+              dateText : {
+                alignSelf: 'stretch',
+                padding: 10,
+                fontFamily : 'Electrolize',
+              },
+              dateInput : {
+                borderWidth : 1,
+                textAlign : 'right',
+                borderColor: 'gray',
+              }
+            }}
             date={this.state.date}
             mode="date"
-            placeholder="select date"
+            placeholder="Select date"
             format="YYYY-MM-DD"
             minDate="2000-01-01"
             showIcon={false}
             maxDate="2050-01-01"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36
-              }
-            }}
             onDateChange={(date) => {this.setState({date: date})}}
           />
           <TextInput
-          style={{ width : 80, height: 40, borderColor: 'gray', borderWidth: 1 }}
+          placeholder="Name"
+          style={styles.textInput}
           value={this.state.name}
           onChangeText={this._handleText('name')}
           />
           <TextInput
-          keyboardType="number-pad" style={{ width : 80, height: 40, borderColor: 'gray', borderWidth: 1 }}
+          placeholder="The expiration (months)"
+          keyboardType="number-pad"
+          style={styles.textInput}
           onChangeText={this._handleNumber('month_expired')}
           value={this.state.month_expired}
           />
           <TouchableOpacity style={styles.btn} onPress={this._handleinsert}>
-            <Text style={styles.buttonText}>Insert</Text>
+            <Text style={styles.buttonText}>ADD</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -145,7 +175,7 @@ export default class InsertThing extends React.Component {
               arom_price : '',
               responsible : '',
               place : '',
-              date : '2015-01-01',
+              date : '',
               name : '',
               month_expired : '',
             });
@@ -163,6 +193,10 @@ export default class InsertThing extends React.Component {
 
 
 const styles = StyleSheet.create({
+  title : {
+    marginBottom : 20,
+    fontFamily : 'Electrolize',
+  },
   wrapper: {
     flex: 1,
   },
@@ -170,13 +204,37 @@ const styles = StyleSheet.create({
     flex : 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#2896d3'
+    backgroundColor: 'white'
   },
-  text : {
-    color: '#fff'
+  datePicker : {
+    width : 200,
+    height: 40,
+    borderColor: 'gray',
+    marginBottom: 20,
+  },
+  textInput : {
+    width : 200,
+    fontFamily : 'Electrolize',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 20,
   },
   scrollView: {
     backgroundColor: 'pink',
     marginHorizontal: 20,
   },
+  btn : {
+    borderWidth : 1,
+    borderColor : 'gray',
+    paddingHorizontal : 20,
+    alignItems : 'center',
+    padding : 5,
+    backgroundColor : '#74B43F'
+  },
+  buttonText : {
+    color : 'white',
+    fontFamily : 'Electrolize',
+  }
 });
