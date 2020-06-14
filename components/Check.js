@@ -25,9 +25,9 @@ function Item({ title, go, navigation }) {
   );
 }
 
-function isForgot(id) {
-      for (const item of this.state.used) {
-        if (id == item.id) {
+function isForgot(id, used) {
+      for (const item of used) {
+        if (id === +item.id) {
           return false;
         }
       }
@@ -40,7 +40,6 @@ export default class Check extends React.Component {
     this.state = {
       isLoading: true,
       token: ' ',
-      used: [],
       forgotThings: [],
     };
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -49,11 +48,7 @@ export default class Check extends React.Component {
   async componentDidMount() {
     let val = await deviceStorage.retrieveItem('access_token');
     const { navigation } = this.props;
-    const {route} = this;
-    console.warn(navigation.getParam(used));
-    const used = route.params.used ?? [];
-    console.log(used);
-    alert('Used is ${used}');
+    const used = this.props.navigation.state.params.used ?? [];
     fetch('http://192.168.1.7/zavhoz/get_max_id.php', {
       method: 'POST',
       headers: {
@@ -64,26 +59,24 @@ export default class Check extends React.Component {
     })
       .then(response => response.json())
       .then(responseJson => {
+        for (let i = 1; i <= responseJson.id; i++) {
+          if (isForgot(i, used)) {
+            this.setState(prevState => ({
+              forgotThings: [...prevState.forgotThings, i],
+            }));
+          }
+        }
         this.setState(
           {
             isLoading: false,
-            dataSource: responseJson,
           },
           function() {}
         );
       })
       .catch(error => console.log(error))
       .done();
-    for (let i = 1; i <= this.state.dataSource.id; i++) {
-      if (isForgot(i)) {
-        this.setState(prevState => ({
-          forgotThings: [...prevState.forgotThings, i],
-        }));
-      }
-    }
   }
   render() {
-    console.log("kekeke");
     console.log(JSON.stringify(this.state.forgotThings))
     if (this.state.isLoading === true) {
       return (
@@ -97,7 +90,7 @@ export default class Check extends React.Component {
         <FlatList
           data={this.state.forgotThings}
           renderItem={({ item }) => (
-            <Text>{item.id}</Text>
+            <Text>{item}</Text>
           )}
           keyExtractor={({ id }, index) => id}
         />
