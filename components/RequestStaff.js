@@ -15,6 +15,9 @@ import {
 } from 'react-native';
 import deviceStorage from './deviceStorage';
 import { StackNavigator } from 'react-navigation';
+import GLOBALS from '../Globals';
+
+
 
 function Item({ title, go, navigation }) {
   return (
@@ -38,7 +41,7 @@ export default class RequestStaff extends React.Component {
     let kek = navigation.getParam('lol', '0');
     //alert('Authorization' + ' Bearer ' + AsyncStorage.getItem('access_token'));
     return fetch(
-      'http://192.168.1.3/zavhoz/getThingsByResponsible.php',
+      GLOBALS.BASE_URL + '/zavhoz/getThingsByResponsible.php',
       {
         method: 'POST',
         headers: {

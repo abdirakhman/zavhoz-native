@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 import deviceStorage from './deviceStorage';
 import { StackNavigator } from 'react-navigation';
+import GLOBALS from '../Globals';
+
 
 function Item({ title, go, navigation }) {
   return (
@@ -49,7 +51,7 @@ export default class Check extends React.Component {
     let val = await deviceStorage.retrieveItem('access_token');
     const { navigation } = this.props;
     const used = this.props.navigation.state.params.used ?? [];
-    fetch('http://192.168.1.7/zavhoz/get_max_id.php', {
+    fetch(GLOBALS.BASE_URL + '/zavhoz/get_max_id.php', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

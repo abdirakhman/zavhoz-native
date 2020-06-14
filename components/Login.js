@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import deviceStorage from '../components/deviceStorage';
+import GLOBALS from '../Globals';
 
 
 export default class Login extends React.Component {
@@ -62,6 +63,7 @@ export default class Login extends React.Component {
               style={styles.textInput}
               placeholder="Enter e-mail"
               autoCapitalize="none"
+              keyboardType="email-address"
               onChangeText={username => this.setState({ username })}
               underlineColorAndroid="transparent"
             />
@@ -81,7 +83,7 @@ export default class Login extends React.Component {
       );
 }
   login = () => {
-    fetch('http://192.168.1.7/zavhoz/login.php', {
+    fetch(GLOBALS.BASE_URL + '/zavhoz/login.php', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

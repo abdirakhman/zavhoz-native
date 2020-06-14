@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import deviceStorage from '../components/deviceStorage';
+import GLOBALS from '../Globals';
 
 
 
@@ -36,7 +37,7 @@ export default class GetPlace extends React.Component {
   async componentDidMount() {
     let val = await deviceStorage.retrieveItem("access_token");
     //alert('Authorization' + ' Bearer ' + AsyncStorage.getItem('access_token'));
-    return fetch('http://192.168.1.3/zavhoz/get_place.php', {
+    return fetch(GLOBALS.BASE_URL + '/zavhoz/get_place.php', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

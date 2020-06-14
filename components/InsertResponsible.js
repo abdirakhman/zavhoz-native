@@ -13,6 +13,8 @@ import {
   Button
  } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import GLOBALS from '../Globals';
+
 
 export default class InsertResponsible extends React.Component {
   constructor(props) {
