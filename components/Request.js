@@ -26,8 +26,7 @@ export default class Request extends React.Component {
   async componentDidMount() {
     let val = await deviceStorage.retrieveItem('access_token');
     const { navigation } = this.props;
-    let kek = navigation.getParam('lol', '0');
-    //alert('Authorization' + ' Bearer ' + AsyncStorage.getItem('access_token'));
+    let kek = navigation.getParam('id', '0');
     return fetch(
       GLOBALS.BASE_URL + '/zavhoz/request.php',
       {

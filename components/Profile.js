@@ -137,7 +137,7 @@ export default class Profile extends React.Component {
     if (!this.state.assetsLoaded) {
       return (
         <View style={styles.container}>
-          <ActivityIndicator size="large" color="#00B3FF"/>
+          <ActivityIndicator size="large" color="#74B43F"/>
         </View>
       );
     }

@@ -15,20 +15,48 @@ import {
 } from 'react-native';
 import deviceStorage from './deviceStorage';
 import { StackNavigator } from 'react-navigation';
+import * as Font from 'expo-font';
 import GLOBALS from '../Globals';
 
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    flex : 1,
+    color: '#74B43F',
+    fontFamily : 'Electrolize',
+    textAlign : 'center',
+    textAlignVertical : 'center',
+  },
+  item : {
+    backgroundColor : '#EEFCE8',
+    borderWidth : 3,
+    height : 45,
+    marginHorizontal : 30,
+    alignSelf : 'stretch',
+    marginBottom : 10,
+    borderColor : '#74B43F',
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+  },
+});
 
 function Item({ title, go, navigation }) {
   return (
-    <View style={styles.item}>
-      <Button
-        onPress={() => navigation.navigate('Request', { lol: go.toString() })}
-        title={title.toString()}
-      />
-    </View>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => navigation.navigate('Request', { id: go.toString() })}
+    >
+    <Text style={styles.text}>{title.toString()}</Text>
+    </TouchableOpacity>
   );
 }
+
 
 export default class RequestStaff extends React.Component {
   constructor(props) {
@@ -36,10 +64,12 @@ export default class RequestStaff extends React.Component {
     this.state = { isLoading: true, token: ' ' };
   }
   async componentDidMount() {
+    await Font.loadAsync({
+      'Electrolize': require('../assets/fonts/Electrolize.otf'),
+    });
     let val = await deviceStorage.retrieveItem('access_token');
     const { navigation } = this.props;
-    let kek = navigation.getParam('lol', '0');
-    //alert('Authorization' + ' Bearer ' + AsyncStorage.getItem('access_token'));
+    let kek = navigation.getParam('id', '0');
     return fetch(
       GLOBALS.BASE_URL + '/zavhoz/getThingsByResponsible.php',
       {
@@ -67,8 +97,8 @@ export default class RequestStaff extends React.Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, padding: 20 }}>
-          <ActivityIndicator />
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="#74B43F"/>
         </View>
       );
     }
@@ -89,19 +119,3 @@ export default class RequestStaff extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#2896d3',
-  },
-  text: {
-    color: '#fff',
-  },
-  scrollView: {
-    backgroundColor: 'pink',
-    marginHorizontal: 20,
-  },
-});

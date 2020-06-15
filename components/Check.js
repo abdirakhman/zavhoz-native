@@ -22,7 +22,7 @@ function Item({ title, go, navigation }) {
   return (
     <View style={styles.item}>
       <Button onPress={() => navigation.navigate('RequestStaff', {
-          lol : go.toString(), })} title={title.toString()} />
+          id : go.toString(), })} title={title.toString()} />
     </View>
   );
 }

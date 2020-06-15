@@ -9,7 +9,7 @@ export default class Scanner extends React.Component {
   constructor(props) {
     super(props);
   }
-  state = { 
+  state = {
     hasCameraPermission: null,
     scanned: false,
   };
@@ -53,6 +53,6 @@ export default class Scanner extends React.Component {
 
   handleBarCodeScanned = ({ type, data }) => {
     this.setState({ scanned: true });
-    this.props.navigation.navigate('Request', { lol: data });
+    this.props.navigation.navigate('Request', { id : data });
   };
 }

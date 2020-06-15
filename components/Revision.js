@@ -60,13 +60,8 @@ export default class Revision extends React.Component {
 
   handleBarCodeScanned = ({ type, data }) => {
     this.setState({ scanned: true });
-    //alert(data);
-    //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    //console.log(JSON.stringify(data));
-    ///this.props.navigation.navigate('Request', { lol: data });
     this.setState(prevState => ({
       usedId: [...prevState.usedId, data],
     }));
-    //console.log(this.state.usedId);
   };
 }
