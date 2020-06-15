@@ -109,6 +109,10 @@ export default class InsertThing extends React.Component {
                 fontFamily : 'Electrolize',
               },
               dateInput : {
+                borderTopLeftRadius: 5,
+                borderTopRightRadius: 5,
+                borderBottomRightRadius: 5,
+                borderBottomLeftRadius: 5,
                 borderWidth : 1,
                 textAlign : 'right',
                 borderColor: 'gray',
@@ -220,6 +224,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginBottom: 20,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
   },
   scrollView: {
     backgroundColor: 'pink',
@@ -231,7 +239,7 @@ const styles = StyleSheet.create({
     paddingHorizontal : 20,
     alignItems : 'center',
     padding : 5,
-    backgroundColor : '#74B43F'
+    backgroundColor : '#74B43F',
   },
   buttonText : {
     color : 'white',

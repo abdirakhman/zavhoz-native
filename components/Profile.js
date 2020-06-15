@@ -18,67 +18,105 @@ import { StackNavigator } from 'react-navigation';
 
 const DATA = [
   {
-    id: '1',
-    title: 'INSPECT',
-    go: "Scanner",
-    style: {
-      alignSelf : 'flex-start',
+    id : '1',
+    data : {
+      first : {
+        title: 'INSPECT',
+        go: "Scanner",
+      },
+      second : {
+        title: 'ADD',
+        go: "InsertThing",
+      },
     }
   },
   {
-    id: '2',
-    title: 'ADD',
-    go: "InsertThing",
-    style : {
-      alignSelf: 'flex-end'
+    id : '2',
+    data : {
+      first : {
+        title: 'ADD RESPONSIBLE',
+        go: "InsertResponsible",
+      },
+      second : {
+        title: 'THE ROOMS',
+        go: 'GetPlace',
+      }
     }
   },
   {
-    id: '3',
-    title: 'ADD RESPONSIBLE',
-    go: "InsertResponsible",
-    style: {
-      alignSelf : 'flex-start',
+    id : '3',
+    data : {
+      first : {
+        title: 'STAFF',
+        go: 'GetStaff',
+      },
+      second : {
+        title: 'REVISION',
+        go: 'Revision',
+      }
     }
-  },
-  {
-    id: '4',
-    title: 'THE ROOMS',
-    go: 'GetPlace',
-    style : {
-      alignSelf: 'flex-end'
-    }
-  },
-  {
-    id: '5',
-    title: 'STAFF',
-    go: 'GetStaff',
-    style: {
-      alignSelf : 'flex-start',
-    }
-  },
-  {
-    id: '6',
-    title: 'REVISION',
-    go: 'Revision',
-    style : {
-      alignSelf: 'flex-end'
-    }
-  },
+  }
 ];
 
-const Item = ({title, go, navigation, customStyle}) => {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop : 50,
+    backgroundColor: 'white',
+  },
+  text: {
+    flex : 1,
+    fontFamily : 'Electrolize',
+    color : 'white',
+    fontSize : 20,
+    textAlign : 'center',
+    textAlignVertical: 'center',
+  },
+  items : {
+    width  : 30,
+  },
+  btn : {
+    height : 150,
+    width : 150,
+    alignItems : 'center',
+    backgroundColor: '#74B43F',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
+  },
+  contentContainer : {
+    flex : 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  }
+});
+
+const Item = ({data, navigation}) => {
   return (
-    <TouchableOpacity
-        style={[styles.btn, customStyle]}
-        onPress={() => navigation.navigate(go.toString())}
+    <View
+    style = {{
+      justifyContent:'space-around',
+      flexDirection : 'row'
+    }}
     >
-      <Text
+    <TouchableOpacity
+      style = {styles.btn}
+      onPress = {() => navigation.navigate(data.first.go)}
+    >
+    <Text
       style={styles.text}
-      >
-      {title.toString()}
-      </Text>
+    >{data.first.title}</Text>
     </TouchableOpacity>
+    <TouchableOpacity
+      style = {styles.btn}
+      onPress = {() => navigation.navigate(data.second.go)}
+    >
+    <Text
+      style={styles.text}
+    >{data.second.title}</Text>
+    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -111,9 +149,7 @@ export default class Profile extends React.Component {
           contentContainerStyle={styles.contentContainer}
           renderItem={({ item }) => (
             <Item
-              title={item.title}
-              go={item.go}
-              customStyle={item.style}
+              data={item.data}
               navigation={this.props.navigation}
             />
           )}
@@ -123,34 +159,3 @@ export default class Profile extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop : 50,
-    backgroundColor: 'white',
-  },
-  text: {
-    color: '#00B3FF',
-    fontFamily: 'Electrolize',
-    fontSize: 20,
-    textAlign: 'center',
-  },
-  items : {
-    width  : 30,
-  },
-  btn : {
-    borderWidth: 1,
-    borderColor: '#00B3FF',
-    //paddingLeft: 50,
-    //paddingRight: 50,
-    padding: 5,
-    marginLeft: 30,
-    marginRight: 30,
-  },
-  contentContainer : {
-    flex : 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-  }
-});
