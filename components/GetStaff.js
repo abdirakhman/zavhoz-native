@@ -111,10 +111,7 @@ export default class GetStaff extends React.Component {
   }
 
   _searchFilterFunction = text => {
-    console.log(text);
-    console.log(typeof text);
-    console.log(text.length);
-    if (!text || text === '' || text.length == 0) {
+    if (!text || text === '') {
       this.setState({data : this.initialData});
       return;
     }
@@ -153,7 +150,7 @@ export default class GetStaff extends React.Component {
               navigation={this.props.navigation}
             />
           )}
-          keyExtractor={({ id }, index) => id}
+          keyExtractor={({ id }, index) => id.toString()}
         />
       </View>
     );
