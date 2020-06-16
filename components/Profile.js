@@ -52,7 +52,7 @@ const DATA = [
       },
       second : {
         title: 'REVISION',
-        go: 'Revision',
+        go: 'Request',
       }
     }
   }
