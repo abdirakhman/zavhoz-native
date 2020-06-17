@@ -11,6 +11,7 @@ import InsertResponsible from './components/InsertResponsible';
 import Revision from './components/Revision';
 import Request from './components/Request';
 import InsertThing from './components/InsertThing';
+import InsertPlace from './components/InsertPlace';
 import RequestStaff from './components/RequestStaff';
 import RequestPlace from './components/RequestPlace';
 import Scanner from './components/Scanner';
@@ -25,6 +26,7 @@ const MainNavigator = createStackNavigator({
   GetPlace : {screen : GetPlace},
   InsertResponsible : {screen : InsertResponsible},
   InsertThing : {screen : InsertThing},
+  InsertPlace : {screen: InsertPlace},
   Revision : {screen : Revision},
   Request : {screen : Request},
   RequestStaff : {screen : RequestStaff},

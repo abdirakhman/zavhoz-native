@@ -55,6 +55,19 @@ const DATA = [
         go: 'Request',
       }
     }
+  },
+  {
+    id : '4',
+    data : {
+      first : {
+        title: 'ADD PLACE',
+        go: 'InsertPlace',
+      },
+      second : {
+        title: '',
+        go: '',
+      }
+    }
   }
 ];
 

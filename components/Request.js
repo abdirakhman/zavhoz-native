@@ -12,11 +12,13 @@ import {
   SafeAreaView,
   FlatList,
   Button,
+  Dimensions
 } from 'react-native';
 import deviceStorage from './deviceStorage';
 import { StackNavigator } from 'react-navigation';
 import GLOBALS from '../Globals';
 
+var deviceWidth = Dimensions.get('window').width;
 
 export default class Request extends React.Component {
   constructor(props) {
@@ -62,7 +64,7 @@ export default class Request extends React.Component {
     console.log(this.state.dataSource);
     console.log(this.state.dataSource.name);
     return (
-      <View style={{ flex: 1, paddingTop: 20, alignItems:'center' }}>
+      <View style={{ flex: 1, paddingTop: 20, alignItems:'center', borderWidth: 3, height: 100, width: (deviceWidth * 9/10)}}>
               <Text style={styles.box}>{this.state.dataSource.name.toString()}</Text>
               <Text style={styles.box}>{this.state.dataSource.init_cost}</Text>
               <Text style={styles.box}>{this.state.dataSource.arom_price}</Text>
