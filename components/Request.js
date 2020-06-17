@@ -18,7 +18,15 @@ import deviceStorage from './deviceStorage';
 import { StackNavigator } from 'react-navigation';
 import GLOBALS from '../Globals';
 
+
+function getMin(a,  b){
+  if(a < b) return a;
+  else return b;
+}
+
 var deviceWidth = Dimensions.get('window').width;
+var deviceHeight = Dimensions.get('window').height;
+var boxHeight = getMin(deviceHeight * 4/5, 500);
 
 export default class Request extends React.Component {
   constructor(props) {
@@ -64,14 +72,31 @@ export default class Request extends React.Component {
     console.log(this.state.dataSource);
     console.log(this.state.dataSource.name);
     return (
-      <View style={{ flex: 1, paddingTop: 20, alignItems:'center', borderWidth: 3, height: 100, width: (deviceWidth * 9/10)}}>
-              <Text style={styles.box}>{this.state.dataSource.name.toString()}</Text>
-              <Text style={styles.box}>{this.state.dataSource.init_cost}</Text>
-              <Text style={styles.box}>{this.state.dataSource.arom_price}</Text>
-              <Text style={styles.box}>{this.state.dataSource.responsible}</Text>
-              <Text style={styles.box}>{this.state.dataSource.place} </Text>
-              <Text style={styles.box}>{this.state.dataSource.date} </Text>
-              <Text style={styles.box}>{this.state.dataSource.month_expired} </Text>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
+        <Text style={{fontSize:36, paddingBottom: 36}}> Item Information </Text>
+        <View style={{borderWidth: 3, height: getMin(deviceHeight * 4/5, 500), width: (deviceWidth * 9/10), borderColor: '#74B43F'}}>
+                <View style={styles.whiteBox}> 
+                  <Text style={styles.textStyle}>{"Name: " + this.state.dataSource.name.toString()}</Text>
+                </View>
+                <View style={styles.greenBox}> 
+                  <Text style={styles.textStyle}>{"Initial Cost: " + this.state.dataSource.init_cost}</Text>
+                </View>
+                <View style={styles.whiteBox}> 
+                 <Text style={styles.textStyle}t>{"Amoratized Cost: " + this.state.dataSource.arom_price}</Text> 
+                </View>
+                <View numberOfLines={2} style={styles.greenBox}> 
+                  <Text style={styles.textStyle}>{"Responsible: " + this.state.dataSource.responsible}</Text> 
+                </View>
+                <View style={styles.whiteBox}> 
+                  <Text style={styles.textStyle}>{"Room: " + this.state.dataSource.place}</Text>
+                </View>
+                <View style={styles.greenBox}> 
+                  <Text style={styles.textStyle}>{"Date: " + this.state.dataSource.date}</Text>
+                </View>
+                <View style={styles.whiteBox}> 
+                  <Text style={styles.textStyle}>{"The Expiration: " + this.state.dataSource.month_expired}</Text> 
+                </View>
+        </View>
       </View>
     );
   }
@@ -92,6 +117,26 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   box: {
-
-  }
+    borderWidth: 3, 
+    height: boxHeight, 
+    width: (deviceWidth * 9/10), 
+    borderColor: '#74B43F',
+    alignItems: 'center'
+  },
+  whiteBox: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  greenBox: {
+    flex: 1,
+    backgroundColor: '#EEFCE8',
+  },
+  textStyle: {
+    fontSize: 24,
+    justifyContent: 'center',
+    marginLeft: 10,
+    color: '#74B43F',
+    paddingTop:1,
+    flex: 1,
+  },
 });
