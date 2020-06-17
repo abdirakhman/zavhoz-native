@@ -31,6 +31,19 @@ const styles = StyleSheet.create({
     textAlign : 'center',
     textAlignVertical : 'center',
   },
+  textInput : {
+    marginBottom : 10,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    backgroundColor : 'white',
+    borderWidth : 1,
+    fontFamily: 'Electrolize',
+    height : 45,
+    marginHorizontal : 30,
+    padding: 16,
+  },
   item : {
     backgroundColor : '#EEFCE8',
     borderWidth : 3,
@@ -61,7 +74,11 @@ function Item({ title, go, navigation }) {
 export default class RequestStaff extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isLoading: true, token: ' ' };
+    this.state = {
+      isLoading: true,
+      token: '',
+      data : [],
+    };
   }
   async componentDidMount() {
     await Font.loadAsync({
@@ -87,13 +104,31 @@ export default class RequestStaff extends React.Component {
         this.setState(
           {
             isLoading: false,
-            dataSource: responseJson.return_array,
+            data : responseJson.return_array,
           },
           function() {}
         );
+        this.initialData = responseJson.return_array;
       })
       .done();
   }
+
+  _searchFilterFunction = text => {
+    if (!text || text === '') {
+      this.setState({data : this.initialData});
+      return;
+    }
+    const newData = this.initialData.filter(item => {
+      const itemData = `${item.name.toString().toUpperCase()}`;
+
+       const textData = text.toString().toUpperCase();
+
+       return itemData.indexOf(textData) > -1;
+    });
+    this.setState({ data: newData });
+  };
+
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -104,8 +139,14 @@ export default class RequestStaff extends React.Component {
     }
     return (
       <View style={{ flex: 1, paddingTop: 20 }}>
+        <TextInput
+          placeholder="Thing"
+          autoCapitalize="none"
+          onChangeText={text => this._searchFilterFunction(text)}
+          style={styles.textInput}
+        />
         <FlatList
-          data={this.state.dataSource}
+          data={this.state.data}
           renderItem={({ item }) => (
             <Item
               title={item.name}
