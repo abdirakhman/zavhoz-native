@@ -63,10 +63,6 @@ const DATA = [
         title: 'ADD PLACE',
         go: 'InsertPlace',
       },
-      second : {
-        title: '',
-        go: '',
-      }
     }
   }
 ];
@@ -83,14 +79,15 @@ const styles = StyleSheet.create({
     color : 'white',
     fontSize : 20,
     textAlign : 'center',
-    textAlignVertical: 'center',
   },
   items : {
     width  : 30,
   },
   btn : {
-    height : 150,
-    width : 150,
+    display : 'flex',
+    height : 125,
+    width : 125,
+    justifyContent : 'center',
     alignItems : 'center',
     backgroundColor: '#74B43F',
     borderTopLeftRadius: 15,
@@ -121,14 +118,16 @@ const Item = ({data, navigation}) => {
       style={styles.text}
     >{data.first.title}</Text>
     </TouchableOpacity>
-    <TouchableOpacity
+    {data.second &&
+    (<TouchableOpacity
       style = {styles.btn}
       onPress = {() => navigation.navigate(data.second.go)}
     >
     <Text
       style={styles.text}
     >{data.second.title}</Text>
-    </TouchableOpacity>
+    </TouchableOpacity>)
+    }
     </View>
   );
 }
