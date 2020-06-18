@@ -26,14 +26,12 @@ export default class InsertThing extends React.Component {
     this.state = {
       init_cost : '',
       arom_price : '',
-      responsible : '',
-      place : '',
       date : '',
       name : '',
       month_expired : '',
       assetsLoaded : false,
-      selectedResponsible : {},
-      selectedPlace : {},
+      responsible : {},
+      place : {},
     };
   }
 
@@ -58,8 +56,8 @@ export default class InsertThing extends React.Component {
   }
   _returnDataResponsible = (_id, _name) => {
     this.setState(prevState => ({
-      selectedResponsible: {
-        ...prevState.selectedResponsible,
+      responsible: {
+        ...prevState.responsible,
         name: _name,
         id : _id,
       }
@@ -67,8 +65,8 @@ export default class InsertThing extends React.Component {
   }
   _returnDataPlace = (_id, _name) => {
     this.setState(prevState => ({
-      selectedPlace: {
-        ...prevState.selectedPlace,
+      place: {
+        ...prevState.place,
         name: _name,
         id : _id,
       }
@@ -105,9 +103,9 @@ export default class InsertThing extends React.Component {
               onPress={() => this.props.navigation.navigate('SelectResponsible', {callback : this._returnDataResponsible})}
               style={styles.buttonInput}
           >
-          {this.state.selectedResponsible.name ? (
+          {this.state.responsible.name ? (
           <Text style={styles.chooseText}>
-          {this.state.selectedResponsible.name}
+          {this.state.responsible.name}
           </Text>
           ) : (
             <Text style={[styles.chooseText, {color : '#C7C7CD'}]}>
@@ -121,9 +119,9 @@ export default class InsertThing extends React.Component {
               onPress={() => this.props.navigation.navigate('SelectPlace', {callback : this._returnDataPlace})}
               style={styles.buttonInput}
           >
-          {this.state.selectedPlace.name ? (
+          {this.state.place.name ? (
           <Text style={styles.chooseText}>
-          {this.state.selectedPlace.name}
+          {this.state.place.name}
           </Text>
           ) : (
             <Text style={[styles.chooseText, {color : '#C7C7CD'}]}>
@@ -186,8 +184,8 @@ export default class InsertThing extends React.Component {
     );
   }
   _handleinsert = async () => {
-    if (this.state.init_cost == '' || this.state.arom_price == '' || this.state.responsible == ''
-    || this.state.place == '' || this.state.name == '' || this.month_expired == '') {
+    if (this.state.init_cost == '' || this.state.arom_price == '' || this.state.responsible.id == ''
+    || this.state.place.id == '' || this.state.name == '' || this.month_expired == '') {
       alert("Write all fields");
       return;
     }
@@ -202,8 +200,8 @@ export default class InsertThing extends React.Component {
       },
       body: 'init_cost=' + this.state.init_cost + '&name='
       + this.state.name + '&arom_price=' + this.state.arom_price
-      + '&responsible=' + this.state.responsible + '&place='
-      + this.state.place + '&date=' + this.state.date
+      + '&responsible=' + this.state.responsible.id + '&place='
+      + this.state.place.id + '&date=' + this.state.date
       + '&month_expired=' + this.state.month_expired,
     })
     .then(response => response.json())
@@ -213,8 +211,8 @@ export default class InsertThing extends React.Component {
             this.setState({
               init_cost : '',
               arom_price : '',
-              responsible : '',
-              place : '',
+              responsible : {},
+              place : {},
               date : '',
               name : '',
               month_expired : '',
