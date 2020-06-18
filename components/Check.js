@@ -14,22 +14,67 @@ import {
   Button,
 } from 'react-native';
 import deviceStorage from './deviceStorage';
+import * as Font from 'expo-font';
 import { StackNavigator } from 'react-navigation';
 import GLOBALS from '../Globals';
 
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    flex : 1,
+    color: '#74B43F',
+    fontFamily : 'Electrolize',
+    textAlign : 'center',
+    textAlignVertical : 'center',
+  },
+  textInput : {
+    marginBottom : 10,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    backgroundColor : 'white',
+    borderWidth : 1,
+    fontFamily: 'Electrolize',
+    height : 45,
+    marginHorizontal : 30,
+    padding: 16,
+  },
+  item : {
+    backgroundColor : '#EEFCE8',
+    borderWidth : 3,
+    height : 45,
+    marginHorizontal : 30,
+    alignSelf : 'stretch',
+    marginBottom : 10,
+    borderColor : '#74B43F',
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+  },
+});
+
+
 function Item({ title, go, navigation }) {
   return (
-    <View style={styles.item}>
-      <Button onPress={() => navigation.navigate('RequestStaff', {
-          id : go.toString(), })} title={title.toString()} />
-    </View>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => navigation.navigate('Request', { id: go.toString() })}
+    >
+    <Text style={styles.text}>{title.toString()}</Text>
+    </TouchableOpacity>
   );
 }
 
 function isForgot(id, used) {
       for (const item of used) {
-        if (id === +item.id) {
+        if (id === +item) {
           return false;
         }
       }
@@ -48,6 +93,9 @@ export default class Check extends React.Component {
   }
 
   async componentDidMount() {
+    await Font.loadAsync({
+      'Electrolize': require('../assets/fonts/Electrolize.otf'),
+    });
     let val = await deviceStorage.retrieveItem('access_token');
     const { navigation } = this.props;
     const used = this.props.navigation.state.params.used ?? [];
@@ -79,7 +127,6 @@ export default class Check extends React.Component {
       .done();
   }
   render() {
-    console.log(JSON.stringify(this.state.forgotThings))
     if (this.state.isLoading === true) {
       return (
         <View style={{ flex: 1, padding: 20 }}>
@@ -92,7 +139,11 @@ export default class Check extends React.Component {
         <FlatList
           data={this.state.forgotThings}
           renderItem={({ item }) => (
-            <Text>{item}</Text>
+            <Item
+              title={item}
+              go={item}
+              navigation={this.props.navigation}
+            />
           )}
           keyExtractor={({ id }, index) => id}
         />
@@ -100,20 +151,3 @@ export default class Check extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#2896d3',
-  },
-  text: {
-    color: '#fff',
-  },
-  scrollView: {
-    backgroundColor: 'pink',
-    marginHorizontal: 20,
-  },
-  box: {},
-});
