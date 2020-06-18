@@ -32,6 +32,8 @@ export default class InsertThing extends React.Component {
       name : '',
       month_expired : '',
       assetsLoaded : false,
+      selectedResponsible : {},
+      selectedPlace : {},
     };
   }
 
@@ -53,6 +55,24 @@ export default class InsertThing extends React.Component {
     return text => {
       this.setState({[name] : text});
     }
+  }
+  _returnDataResponsible = (_id, _name) => {
+    this.setState(prevState => ({
+      selectedResponsible: {
+        ...prevState.selectedResponsible,
+        name: _name,
+        id : _id,
+      }
+    }));
+  }
+  _returnDataPlace = (_id, _name) => {
+    this.setState(prevState => ({
+      selectedPlace: {
+        ...prevState.selectedPlace,
+        name: _name,
+        id : _id,
+      }
+    }));
   }
 
   render() {
@@ -81,20 +101,36 @@ export default class InsertThing extends React.Component {
           onChangeText={this._handleNumber('arom_price')}
           value={this.state.arom_price}
           />
-          <TextInput
-          placeholder="Responsible"
-          keyboardType="number-pad"
-          style={styles.textInput}
-          onChangeText={this._handleNumber('responsible')}
-          value={this.state.responsible}
-          />
-          <TextInput
-          placeholder="Room"
-          keyboardType="number-pad"
-          style={styles.textInput}
-          onChangeText={this._handleNumber('place')}
-          value={this.state.place}
-          />
+          <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('SelectResponsible', {callback : this._returnDataResponsible})}
+              style={styles.buttonInput}
+          >
+          {this.state.selectedResponsible.name ? (
+          <Text style={styles.chooseText}>
+          {this.state.selectedResponsible.name}
+          </Text>
+          ) : (
+            <Text style={[styles.chooseText, {color : '#C7C7CD'}]}>
+            {'Choose a responsible'}
+            </Text>
+          ) }
+
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('SelectPlace', {callback : this._returnDataPlace})}
+              style={styles.buttonInput}
+          >
+          {this.state.selectedPlace.name ? (
+          <Text style={styles.chooseText}>
+          {this.state.selectedPlace.name}
+          </Text>
+          ) : (
+            <Text style={[styles.chooseText, {color : '#C7C7CD'}]}>
+            {'Choose a room'}
+            </Text>
+          ) }
+          </TouchableOpacity>
           <DatePicker
             style={styles.datePicker}
             customStyles= {{
@@ -216,6 +252,20 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     marginBottom: 20,
   },
+  buttonInput : {
+    width : 200,
+    fontFamily : 'Electrolize',
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 1,
+    padding: 10,
+    justifyContent : 'center',
+    marginBottom: 20,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+  },
   textInput : {
     width : 200,
     fontFamily : 'Electrolize',
@@ -229,10 +279,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     borderBottomLeftRadius: 5,
   },
-  scrollView: {
-    backgroundColor: 'pink',
-    marginHorizontal: 20,
-  },
   btn : {
     borderWidth : 1,
     borderColor : 'gray',
@@ -243,6 +289,9 @@ const styles = StyleSheet.create({
   },
   buttonText : {
     color : 'white',
+    fontFamily : 'Electrolize',
+  },
+  chooseText : {
     fontFamily : 'Electrolize',
   }
 });
