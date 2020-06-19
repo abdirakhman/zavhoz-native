@@ -16,7 +16,8 @@ import RequestStaff from './components/RequestStaff';
 import RequestPlace from './components/RequestPlace';
 import Scanner from './components/Scanner';
 import Check from './components/Check';
-
+import SelectResponsible from './components/SelectResponsible';
+import SelectPlace from './components/SelectPlace';
 
 
 const MainNavigator = createStackNavigator({
@@ -33,6 +34,8 @@ const MainNavigator = createStackNavigator({
   RequestPlace : {screen : RequestPlace},
   Scanner : {screen : Scanner},
   Check : {screen : Check},
+  SelectResponsible : {screen : SelectResponsible},
+  SelectPlace : {screen : SelectPlace},
 },
 {
   headerMode: 'none',

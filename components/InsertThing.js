@@ -26,12 +26,12 @@ export default class InsertThing extends React.Component {
     this.state = {
       init_cost : '',
       arom_price : '',
-      responsible : '',
-      place : '',
       date : '',
       name : '',
       month_expired : '',
       assetsLoaded : false,
+      responsible : {},
+      place : {},
     };
   }
 
@@ -53,6 +53,24 @@ export default class InsertThing extends React.Component {
     return text => {
       this.setState({[name] : text});
     }
+  }
+  _returnDataResponsible = (_id, _name) => {
+    this.setState(prevState => ({
+      responsible: {
+        ...prevState.responsible,
+        name: _name,
+        id : _id,
+      }
+    }));
+  }
+  _returnDataPlace = (_id, _name) => {
+    this.setState(prevState => ({
+      place: {
+        ...prevState.place,
+        name: _name,
+        id : _id,
+      }
+    }));
   }
 
   render() {
@@ -81,20 +99,36 @@ export default class InsertThing extends React.Component {
           onChangeText={this._handleNumber('arom_price')}
           value={this.state.arom_price}
           />
-          <TextInput
-          placeholder="Responsible"
-          keyboardType="number-pad"
-          style={styles.textInput}
-          onChangeText={this._handleNumber('responsible')}
-          value={this.state.responsible}
-          />
-          <TextInput
-          placeholder="Room"
-          keyboardType="number-pad"
-          style={styles.textInput}
-          onChangeText={this._handleNumber('place')}
-          value={this.state.place}
-          />
+          <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('SelectResponsible', {callback : this._returnDataResponsible})}
+              style={styles.buttonInput}
+          >
+          {this.state.responsible.name ? (
+          <Text style={styles.chooseText}>
+          {this.state.responsible.name}
+          </Text>
+          ) : (
+            <Text style={[styles.chooseText, {color : '#C7C7CD'}]}>
+            {'Choose a responsible'}
+            </Text>
+          ) }
+
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('SelectPlace', {callback : this._returnDataPlace})}
+              style={styles.buttonInput}
+          >
+          {this.state.place.name ? (
+          <Text style={styles.chooseText}>
+          {this.state.place.name}
+          </Text>
+          ) : (
+            <Text style={[styles.chooseText, {color : '#C7C7CD'}]}>
+            {'Choose a room'}
+            </Text>
+          ) }
+          </TouchableOpacity>
           <DatePicker
             style={styles.datePicker}
             customStyles= {{
@@ -150,8 +184,8 @@ export default class InsertThing extends React.Component {
     );
   }
   _handleinsert = async () => {
-    if (this.state.init_cost == '' || this.state.arom_price == '' || this.state.responsible == ''
-    || this.state.place == '' || this.state.name == '' || this.month_expired == '') {
+    if (this.state.init_cost == '' || this.state.arom_price == '' || this.state.responsible.id == ''
+    || this.state.place.id == '' || this.state.name == '' || this.month_expired == '') {
       alert("Write all fields");
       return;
     }
@@ -166,8 +200,8 @@ export default class InsertThing extends React.Component {
       },
       body: 'init_cost=' + this.state.init_cost + '&name='
       + this.state.name + '&arom_price=' + this.state.arom_price
-      + '&responsible=' + this.state.responsible + '&place='
-      + this.state.place + '&date=' + this.state.date
+      + '&responsible=' + this.state.responsible.id + '&place='
+      + this.state.place.id + '&date=' + this.state.date
       + '&month_expired=' + this.state.month_expired,
     })
     .then(response => response.json())
@@ -177,8 +211,8 @@ export default class InsertThing extends React.Component {
             this.setState({
               init_cost : '',
               arom_price : '',
-              responsible : '',
-              place : '',
+              responsible : {},
+              place : {},
               date : '',
               name : '',
               month_expired : '',
@@ -216,6 +250,20 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     marginBottom: 20,
   },
+  buttonInput : {
+    width : 200,
+    fontFamily : 'Electrolize',
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 1,
+    padding: 10,
+    justifyContent : 'center',
+    marginBottom: 20,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+  },
   textInput : {
     width : 200,
     fontFamily : 'Electrolize',
@@ -229,10 +277,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     borderBottomLeftRadius: 5,
   },
-  scrollView: {
-    backgroundColor: 'pink',
-    marginHorizontal: 20,
-  },
   btn : {
     borderWidth : 1,
     borderColor : 'gray',
@@ -243,6 +287,9 @@ const styles = StyleSheet.create({
   },
   buttonText : {
     color : 'white',
+    fontFamily : 'Electrolize',
+  },
+  chooseText : {
     fontFamily : 'Electrolize',
   }
 });

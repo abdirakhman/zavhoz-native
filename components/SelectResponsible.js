@@ -7,15 +7,15 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   AsyncStorage,
-  ActivityIndicator,
   ScrollView,
   SafeAreaView,
   FlatList,
   Button,
+  ActivityIndicator,
 } from 'react-native';
-import deviceStorage from './deviceStorage';
-import * as Font from 'expo-font';
 import { StackNavigator } from 'react-navigation';
+import * as Font from 'expo-font';
+import deviceStorage from '../components/deviceStorage';
 import GLOBALS from '../Globals';
 
 
@@ -62,45 +62,35 @@ const styles = StyleSheet.create({
 
 
 function Item({ title, go, navigation }) {
-  console.log("At least did you be here!")
   return (
     <TouchableOpacity
       style={styles.item}
-      onPress={() => navigation.navigate('Request', { id: go.toString() })}
+      onPress={() => {
+        navigation.state.params.callback(go, title);
+        navigation.goBack();
+      }}
     >
     <Text style={styles.text}>{title.toString()}</Text>
     </TouchableOpacity>
   );
 }
 
-function isForgot(id, used) {
-      for (const item of used) {
-        if (id === +item) {
-          return false;
-        }
-      }
-      return true;
-  }
 
-export default class Check extends React.Component {
+export default class SelectResponsible extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      token: ' ',
-      forgotThings: [],
-    };
-    this.componentDidMount = this.componentDidMount.bind(this);
+      token: '',
+      data : [],
+     };
   }
-
   async componentDidMount() {
     await Font.loadAsync({
       'Electrolize': require('../assets/fonts/Electrolize.otf'),
     });
-    let val = await deviceStorage.retrieveItem('access_token');
-    const { navigation } = this.props;
-    const used = this.props.navigation.state.params.used ?? [];
-    fetch(GLOBALS.BASE_URL + '/zavhoz/get_max_id.php', {
+    let val = await deviceStorage.retrieveItem("access_token");
+    return fetch(GLOBALS.BASE_URL + '/zavhoz/get_staff.php', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -110,48 +100,59 @@ export default class Check extends React.Component {
     })
       .then(response => response.json())
       .then(responseJson => {
-        for (let i = 1; i <= responseJson.id; i++) {
-          if (isForgot(i, used)) {
-            this.setState(prevState => ({
-              forgotThings: [...prevState.forgotThings, i],
-            }));
-          }
-        }
         this.setState(
           {
             isLoading: false,
+            data : responseJson.return_array,
           },
           function() {}
         );
+        this.initialData = responseJson.return_array;
       })
-      .catch(error => console.log(error))
       .done();
   }
+
+  _searchFilterFunction = text => {
+    if (!text || text === '') {
+      this.setState({data : this.initialData});
+      return;
+    }
+    const newData = this.initialData.filter(item => {
+      const itemData = `${item.name.toString().toUpperCase()}`;
+
+       const textData = text.toString().toUpperCase();
+
+       return itemData.indexOf(textData) > -1;
+    });
+    this.setState({ data: newData });
+  };
+
   render() {
-<<<<<<< HEAD
-    console.log('I was here!');
-    console.log(JSON.stringify(this.state.forgotThings))
-=======
->>>>>>> 928a44b2bbd6e246a40e356f8c8495df475e0053
-    if (this.state.isLoading === true) {
+    if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, padding: 20 }}>
-          <ActivityIndicator />
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="#74B43F"/>
         </View>
       );
     }
     return (
       <View style={{ flex: 1, paddingTop: 20 }}>
+        <TextInput
+          placeholder="Responsible"
+          autoCapitalize="none"
+          onChangeText={text => this._searchFilterFunction(text)}
+          style={styles.textInput}
+        />
         <FlatList
-          data={this.state.forgotThings}
+          data={this.state.data}
           renderItem={({ item }) => (
             <Item
-              title={item}
-              go={item}
+              title={item.name}
+              go={item.id}
               navigation={this.props.navigation}
             />
           )}
-          keyExtractor={({ id }, index) => id}
+          keyExtractor={({ id }, index) => id.toString()}
         />
       </View>
     );
