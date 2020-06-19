@@ -76,7 +76,6 @@ export default class Request extends React.Component {
         <View style={{borderWidth: 3, height: getMin(deviceHeight * 4/5, 500), width: (deviceWidth * 9/10), borderColor: '#74B43F'}}>
                 <View style={styles.whiteBox}>
                   <Text style={styles.textStyle}>{"Name: " + this.state.dataSource.name.toString()}</Text>
-                  <Button title={"Update"}/>
                 </View>
                 <View style={styles.greenBox}>
                   <Text style={styles.textStyle}>{"Initial Cost: " + this.state.dataSource.init_cost}</Text>

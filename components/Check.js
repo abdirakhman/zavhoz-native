@@ -128,11 +128,6 @@ export default class Check extends React.Component {
       .done();
   }
   render() {
-<<<<<<< HEAD
-    console.log('I was here!');
-    console.log(JSON.stringify(this.state.forgotThings))
-=======
->>>>>>> 928a44b2bbd6e246a40e356f8c8495df475e0053
     if (this.state.isLoading === true) {
       return (
         <View style={{ flex: 1, padding: 20 }}>
