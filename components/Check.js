@@ -19,7 +19,9 @@ import GLOBALS from '../Globals';
 
 
 function Item({ title, go, navigation }) {
+  console.log("At least did you be here!")
   return (
+    //
     <View style={styles.item}>
       <Button onPress={() => navigation.navigate('RequestStaff', {
           id : go.toString(), })} title={title.toString()} />
@@ -79,6 +81,7 @@ export default class Check extends React.Component {
       .done();
   }
   render() {
+    console.log('I was here!');
     console.log(JSON.stringify(this.state.forgotThings))
     if (this.state.isLoading === true) {
       return (

@@ -77,6 +77,7 @@ export default class Request extends React.Component {
         <View style={{borderWidth: 3, height: getMin(deviceHeight * 4/5, 500), width: (deviceWidth * 9/10), borderColor: '#74B43F'}}>
                 <View style={styles.whiteBox}> 
                   <Text style={styles.textStyle}>{"Name: " + this.state.dataSource.name.toString()}</Text>
+                  <Button title={"Update"}/>
                 </View>
                 <View style={styles.greenBox}> 
                   <Text style={styles.textStyle}>{"Initial Cost: " + this.state.dataSource.init_cost}</Text>
@@ -86,6 +87,7 @@ export default class Request extends React.Component {
                 </View>
                 <View numberOfLines={2} style={styles.greenBox}> 
                   <Text style={styles.textStyle}>{"Responsible: " + this.state.dataSource.responsible}</Text> 
+                  <Button title={"Update"}/>
                 </View>
                 <View style={styles.whiteBox}> 
                   <Text style={styles.textStyle}>{"Room: " + this.state.dataSource.place}</Text>
@@ -133,10 +135,8 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 24,
-    justifyContent: 'center',
-    marginLeft: 10,
+    paddingLeft: 10,
     color: '#74B43F',
     paddingTop:1,
-    flex: 1,
   },
 });
