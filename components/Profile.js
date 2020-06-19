@@ -63,6 +63,10 @@ const DATA = [
         title: 'ADD PLACE',
         go: 'InsertPlace',
       },
+      second : {
+        title: "Edit",
+        go: "EditThing",
+      }
     }
   }
 ];
