@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   text: {
-    flex : 1,
     fontFamily : 'Electrolize',
     color : 'white',
     fontSize : 20,
