@@ -52,7 +52,7 @@ const DATA = [
       },
       second : {
         title: 'REVISION',
-        go: 'Revision',
+        go: 'AskRevision',
       }
     }
   },
@@ -64,7 +64,7 @@ const DATA = [
         go: 'InsertPlace',
       },
       second : {
-        title: "Edit",
+        title: "EDIT",
         go: "EditThing",
       }
     }

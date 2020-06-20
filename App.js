@@ -18,7 +18,7 @@ import Scanner from './components/Scanner';
 import Check from './components/Check';
 import SelectResponsible from './components/SelectResponsible';
 import SelectPlace from './components/SelectPlace';
-
+import AskRevision from './components/AskRevision';
 
 const MainNavigator = createStackNavigator({
   Home: {screen: Login},
@@ -36,6 +36,7 @@ const MainNavigator = createStackNavigator({
   Check : {screen : Check},
   SelectResponsible : {screen : SelectResponsible},
   SelectPlace : {screen : SelectPlace},
+  AskRevision : {screen : AskRevision},
 },
 {
   headerMode: 'none',

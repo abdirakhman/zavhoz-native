@@ -21,7 +21,7 @@ export default class Revision extends React.Component {
 
   getPermissionsAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    this.setState({ hasCameraPermission: status === "granted" });
   };
   endscan = () => {};
   render() {
@@ -37,9 +37,10 @@ export default class Revision extends React.Component {
       <View
         style={{
           flex: 1,
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-        }}>
+          flexDirection: "column",
+          justifyContent: "flex-end",
+        }}
+      >
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
@@ -48,10 +49,19 @@ export default class Revision extends React.Component {
         {scanned && (
           <View>
             <Button
-              title={'Tap to Scan Again'}
+              title={"Tap to Scan Again"}
               onPress={() => this.setState({ scanned: false })}
             />
-            <Button title={'End Scanning'} onPress={() => this.props.navigation.navigate('Check', {used : this.state.usedId})} />
+            <Button
+              title={"End Scanning"}
+              onPress={() =>
+                this.props.navigation.navigate("Check", {
+                  type: this.props.navigation.state.params.type,
+                  id: this.props.navigation.state.params.id,
+                  used: this.state.usedId,
+                })
+              }
+            />
           </View>
         )}
       </View>
@@ -60,7 +70,7 @@ export default class Revision extends React.Component {
 
   handleBarCodeScanned = ({ type, data }) => {
     this.setState({ scanned: true });
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       usedId: [...prevState.usedId, data],
     }));
   };
