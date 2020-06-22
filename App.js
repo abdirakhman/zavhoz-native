@@ -19,6 +19,8 @@ import Check from './components/Check';
 import SelectResponsible from './components/SelectResponsible';
 import SelectPlace from './components/SelectPlace';
 import AskRevision from './components/AskRevision';
+import EditThing from './components/EditThing';
+
 
 const MainNavigator = createStackNavigator({
   Home: {screen: Login},
@@ -37,6 +39,7 @@ const MainNavigator = createStackNavigator({
   SelectResponsible : {screen : SelectResponsible},
   SelectPlace : {screen : SelectPlace},
   AskRevision : {screen : AskRevision},
+  EditThing : {screen : EditThing},
 },
 {
   headerMode: 'none',

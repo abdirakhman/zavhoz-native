@@ -53,6 +53,11 @@ export default class Scanner extends React.Component {
 
   handleBarCodeScanned = ({ type, data }) => {
     this.setState({ scanned: true });
-    this.props.navigation.navigate('Request', { id : data });
+    if (this.props.navigation.state.params.type === "Edit") {
+      this.props.navigation.navigate('EditThing', { id : data });
+    }
+    else {
+      this.props.navigation.navigate('Request', { id : data });
+    }
   };
 }

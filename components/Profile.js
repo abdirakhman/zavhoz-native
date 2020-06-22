@@ -23,6 +23,7 @@ const DATA = [
       first : {
         title: 'INSPECT',
         go: "Scanner",
+        params : {type : 'Request'}
       },
       second : {
         title: 'ADD',
@@ -65,7 +66,8 @@ const DATA = [
       },
       second : {
         title: "EDIT",
-        go: "EditThing",
+        go: "Scanner",
+        params : {type : 'Edit'}
       }
     }
   }
@@ -115,7 +117,7 @@ const Item = ({data, navigation}) => {
     >
     <TouchableOpacity
       style = {styles.btn}
-      onPress = {() => navigation.navigate(data.first.go)}
+      onPress = {() => navigation.navigate(data.first.go, (data.first.params ? data.first.params : {}))}
     >
     <Text
       style={styles.text}
@@ -124,7 +126,7 @@ const Item = ({data, navigation}) => {
     {data.second &&
     (<TouchableOpacity
       style = {styles.btn}
-      onPress = {() => navigation.navigate(data.second.go)}
+      onPress = {() => navigation.navigate(data.second.go, (data.second.params ? data.second.params : {}))}
     >
     <Text
       style={styles.text}
