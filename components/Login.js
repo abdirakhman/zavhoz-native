@@ -41,7 +41,31 @@ export default class Login extends React.Component {
     const value = await AsyncStorage.getItem('good_before');
     let currentTime = new Date().getTime() / 1000;
     if (value < currentTime) {
-      return null;
+      let val = await deviceStorage.retrieveItem('refresh_token');
+      fetch(GLOBALS.BASE_URL + '/zavhoz/refresh.php', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'token=' + val,
+      })
+      .then(response => response.json())
+      .then(res => {
+          if (res.success === 1) {
+            deviceStorage.saveItem('access_token', res.access_token);
+            deviceStorage.saveItem('refresh_token', res.refresh_token);
+            deviceStorage.saveItem('good_before', res.good_before);
+          }
+      })
+      .catch((err) => {
+        alert(err);
+      })
+      .done();
+      if (val !== await deviceStorage.retrieveItem('refresh_token')) {
+        return null;
+      }
+      return true;
     } else {
       return value;
     }
